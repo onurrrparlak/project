@@ -39,7 +39,7 @@ class UserService {
           .doc(movieId)
           .set({'addedAt': DateTime.now()});
     } catch (e) {
-      print('Error adding movie to watchlist: $e');
+      // Error adding movie to watchlist: $e
       rethrow;
     }
   }
@@ -57,7 +57,7 @@ class UserService {
     try {
       await firestore.collection('users').doc(userId).update(updatedData);
     } catch (e) {
-      print('Error updating user data: $e');
+      // Error updating user data: $e
       rethrow;
     }
   }

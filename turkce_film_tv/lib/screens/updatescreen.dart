@@ -9,10 +9,10 @@ class UpdateScreen extends StatefulWidget {
   const UpdateScreen({super.key});
 
   @override
-  _UpdateScreenState createState() => _UpdateScreenState();
+  UpdateScreenState createState() => UpdateScreenState();
 }
 
-class _UpdateScreenState extends State<UpdateScreen> {
+class UpdateScreenState extends State<UpdateScreen> {
   bool downloading = false;
   double downloadProgress = 0;
   String downloadUrl = '';
@@ -35,16 +35,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
           versionNumber = data['versionNumber'];
         });
       } else {
-        print('Invalid data format or document does not exist');
+        // Invalid data format or document does not exist
       }
     } catch (error) {
-      print('Error fetching app version: $error');
+      // Error fetching app version: $error
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     fetchAppVersion();
   }
@@ -74,10 +74,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
         downloading = false;
       });
 
-      print('Downloaded file path: $savePath');
+      // Downloaded file path: $savePath
       doSomethingAfterDownload(savePath);
     } catch (e) {
-      print(e.toString());
+      // $e
       setState(() {
         downloading = false;
       });
@@ -93,11 +93,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
   void doSomethingAfterDownload(String savePath) {
     FlutterAppInstaller.installApk(filePath: savePath).then((value) {
       // Installation successful
-      print('APK installation completed!');
+      // APK installation completed!
       // Perform your desired job here
     }).catchError((error) {
       // Installation failed
-      print('APK installation failed: $error');
+      // APK installation failed: $error
       // Handle the error if needed
     });
   }
@@ -171,7 +171,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   foregroundColor:
                       WidgetStateProperty.all<Color>(Colors.white),
                   overlayColor: WidgetStateProperty.all<Color>(
-                      Colors.green.withOpacity(0.8)),
+                      Colors.green.withValues(alpha: 0.8)),
                   elevation: WidgetStateProperty.all<double>(
                       0.0), // Remove the button shadow
                 ),

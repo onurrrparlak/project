@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gibireplikleri/core/replikler.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -29,7 +28,6 @@ class _HomepageState extends State<Homepage> with WidgetsBindingObserver {
 
   var r = Replikler.replikler;
 
-  final audioPlayer = AudioPlayer();
   TextEditingController editingController = TextEditingController();
 
   String getRandomReplik() {
@@ -193,9 +191,7 @@ class _HomepageState extends State<Homepage> with WidgetsBindingObserver {
                         color: const Color(0XFFecebd4),
                         onPressed: _onSoyleyenToggle,
                         isSelected: [
-                          _selectedSoyleyen == null
-                              ? true
-                              : _selectedSoyleyen == 0,
+                          _selectedSoyleyen == 0,
                           _selectedSoyleyen == 1,
                           _selectedSoyleyen == 2,
                         ],

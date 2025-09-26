@@ -5,10 +5,10 @@ class ReplikOner extends StatefulWidget {
   const ReplikOner({super.key});
 
   @override
-  _ReplikOnerState createState() => _ReplikOnerState();
+  ReplikOnerState createState() => ReplikOnerState();
 }
 
-class _ReplikOnerState extends State<ReplikOner> {
+class ReplikOnerState extends State<ReplikOner> {
   final TextEditingController _replikController = TextEditingController();
   final TextEditingController _neredeGeciyorController =
       TextEditingController();
@@ -26,34 +26,38 @@ class _ReplikOnerState extends State<ReplikOner> {
 
     if (await canLaunchUrl(emailLaunchUri)) {
       await launchUrl(emailLaunchUri);
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Başarılı!'),
-          content: const Text(
-              'Maili göndermek için e-posta adresinize yönlendiriliyorsunuz.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Başarılı!'),
+            content: const Text(
+                'Maili göndermek için e-posta adresinize yönlendiriliyorsunuz.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
     } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Hata'),
-          content: const Text('Mail adresi açılamadı.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Tamam'),
-            ),
-          ],
-        ),
-      );
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Hata'),
+            content: const Text('Mail adresi açılamadı.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Tamam'),
+              ),
+            ],
+          ),
+        );
+      }
     }
   }
 

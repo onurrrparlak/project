@@ -40,8 +40,8 @@ void main() async {
 
   String firestoreVersion = await getFirestoreVersion();
   String appVersion = packageInfo.version;
-  print(firestoreVersion);
-  print(appVersion);
+  // firestoreVersion: $firestoreVersion
+  // appVersion: $appVersion
 
   bool isNewerVersionAvailable(String currentVersion, String latestVersion) {
     // Split the version numbers into their individual components

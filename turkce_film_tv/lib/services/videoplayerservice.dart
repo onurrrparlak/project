@@ -5,7 +5,7 @@ class VideoPlayerService {
   bool _isPlaying = true;
 
   Future<VideoPlayerController> init(String url) async {
-    _controller = VideoPlayerController.network(url);
+    _controller = VideoPlayerController.networkUrl(Uri.parse(url));
     await _controller.initialize();
     _controller.setLooping(true);
     return _controller;

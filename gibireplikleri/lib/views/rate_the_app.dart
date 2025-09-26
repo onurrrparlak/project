@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class RatingDialog extends StatelessWidget {
+class RatingDialog extends StatefulWidget {
   const RatingDialog({super.key});
 
+  @override
+  State<RatingDialog> createState() => _RatingDialogState();
+}
+
+class _RatingDialogState extends State<RatingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -18,12 +23,10 @@ class RatingDialog extends StatelessWidget {
         ),
         ElevatedButton(
           child: const Text("Puan ver"),
-          onPressed: () async {
+          onPressed: () {
             const url =
                 "https://play.google.com/store/apps/details?id=com.wivizo.gibireplikleri"; // replace with your app store link
-            if (await canLaunchUrlString(url)) {
-              await launchUrlString(url);
-            }
+            launchUrlString(url);
             Navigator.of(context).pop();
           },
         ),

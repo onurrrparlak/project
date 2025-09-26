@@ -24,13 +24,12 @@ class VideoPlayerScreen extends StatefulWidget {
   });
 
   @override
-  _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
+  VideoPlayerScreenState createState() => VideoPlayerScreenState();
 }
 
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+class VideoPlayerScreenState extends State<VideoPlayerScreen> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
-  final bool _isPlaying = true;
   int _currentIndex = 0;
   SubtitleController? subtitleController;
   Timer? _hideTimer;
@@ -71,7 +70,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           subtitleDecoder: SubtitleDecoder.utf8);
     }
 
-      _controller = VideoPlayerController.network(widget.videoUrl);
+      _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
 
 
     _initializeVideoPlayerFuture = _controller.initialize();
@@ -298,11 +297,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                           ],
                                           tileMode: TileMode.clamp,
                                           colors: [
-                                            Colors.black.withOpacity(0.6),
-                                            Colors.black.withOpacity(0.5),
-                                            Colors.black.withOpacity(0.3),
-                                            Colors.black.withOpacity(0.2),
-                                            Colors.black.withOpacity(0.1),
+                                            Colors.black.withValues(alpha: 0.6),
+                                            Colors.black.withValues(alpha: 0.5),
+                                            Colors.black.withValues(alpha: 0.3),
+                                            Colors.black.withValues(alpha: 0.2),
+                                            Colors.black.withValues(alpha: 0.1),
                                             Colors.transparent,
                                           ],
                                           // Note: adjust the stops and colors array to create your desired gradient
@@ -489,8 +488,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                   alignment: Alignment.center,
                                   child: _volumeDrag
                                       ? Container(
-                                          color: Colors.black.withOpacity(
-                                              0.5), // Set the black color with 50% opacity
+                                          color: Colors.black.withValues(alpha: 0.5), // Set the black color with 50% opacity
                                           child: Text(
                                             '%${(_currentVolume * 100).toStringAsFixed(0)}',
                                             style: const TextStyle(

@@ -10,9 +10,6 @@ class AudioService extends ChangeNotifier {
   var r = Replikler.replikler;
 
   bool get isPlaying => _isPlaying;
-  set isPlaying(bool value) {
-    _isPlaying = value;
-  }
 
   AudioService() {
     // Fetch the duration of all the sounds and store them in _audioDurations
@@ -42,14 +39,6 @@ class AudioService extends ChangeNotifier {
     return durationInSeconds;
   }
 
-  Future<void> waitForSoundToFinish() async {
-    // Wait for the audio to finish playing
-    _player.onPlayerComplete;
-
-    // Set isPlaying to false after the audio has finished playing
-    _isPlaying = false;
-    notifyListeners();
-  }
 
   playSound(int id) async {
     var path = ('sounds/$id.mp3');
@@ -71,8 +60,8 @@ class AudioService extends ChangeNotifier {
   }
 
   @override
-  dispose() async {
+  void dispose() {
     super.dispose();
-    await _player.dispose();
+    _player.dispose();
   }
 }

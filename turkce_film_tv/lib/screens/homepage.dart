@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                             context);
                       }
 
-                      bool isEndOfList = selectedMovieIndex >= listLength - 3;
+                    
                       final leftPositions = [
                         MediaQuery.of(context).size.width * 0.24,
                         MediaQuery.of(context).size.width * 0.44,
@@ -1515,10 +1515,7 @@ class _HomePageState extends State<HomePage> {
                                                                     isSelected
                                                                         ? 1.15
                                                                         : 1.0;
-                                                                final hasListFocus =
-                                                                    FocusServiceProvider
-                                                                        .homepageListNode
-                                                                        .hasFocus;
+                                                                
 
                                                                 return Padding(
                                                                   padding:

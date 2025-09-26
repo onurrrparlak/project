@@ -6,6 +6,8 @@ import '../services/focusnodeservice.dart';
 import '../services/user_service.dart';
 import 'homepage.dart';
 
+// ignore_for_file: use_build_context_synchronously
+
 class LeftButtonIntent extends Intent {}
 
 class RightButtonIntent extends Intent {}
@@ -20,10 +22,10 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   final UserService _userService = UserService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -277,27 +279,30 @@ class _LoginPageState extends State<LoginPage> {
                                       focusNode: FocusServiceProvider.loginSifreNode,
                                       controller: _passwordController,
                                       textInputAction: TextInputAction.next,
-                                      onEditingComplete: () async {
-                                        try {
-                                          await _userService.loginUser(
+                                      onEditingComplete: () {
+                                          _userService.loginUser(
                                             _emailController.text,
                                             _passwordController.text,
-                                          );
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const HomePage(),
-                                            ),
-                                          );
-                                        } catch (e) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                                content: Text(e.toString())),
-                                          );
-                                        }
-                                      },
+                                          ).then((_) {
+                                            if (mounted) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const HomePage(),
+                                                ),
+                                              );
+                                            }
+                                          }).catchError((e) {
+                                            if (mounted) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                    content: Text(e.toString())),
+                                              );
+                                            }
+                                          });
+                                        },
                                       decoration: InputDecoration(
                                         labelText: 'Şifre',
                                         labelStyle: whiteTextStyle,
@@ -338,27 +343,30 @@ class _LoginPageState extends State<LoginPage> {
                                           ),
                                           EnterButtonIntent:
                                               CallbackAction<EnterButtonIntent>(
-                                            onInvoke: (intent) async {
-                                              try {
-                                                await _userService.loginUser(
-                                                  _emailController.text,
-                                                  _passwordController.text,
-                                                );
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const HomePage(),
-                                                  ),
-                                                );
-                                              } catch (e) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                      content:
-                                                          Text(e.toString())),
-                                                );
-                                              }
+                                            onInvoke: (intent) {
+                                              _userService.loginUser(
+                                                _emailController.text,
+                                                _passwordController.text,
+                                              ).then((_) {
+                                                if (mounted) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const HomePage(),
+                                                    ),
+                                                  );
+                                                }
+                                              }).catchError((e) {
+                                                if (mounted) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content:
+                                                            Text(e.toString())),
+                                                  );
+                                                }
+                                              });
                                               return null;
                                             },
                                           ),
@@ -367,27 +375,30 @@ class _LoginPageState extends State<LoginPage> {
                                           focusNode:
                                               FocusServiceProvider.loginLoginButtonNode,
                                           child: ElevatedButton(
-                                            onPressed: () async {
-                                              try {
-                                                await _userService.loginUser(
-                                                  _emailController.text,
-                                                  _passwordController.text,
-                                                );
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const HomePage(),
-                                                  ),
-                                                );
-                                              } catch (e) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                      content:
-                                                          Text(e.toString())),
-                                                );
-                                              }
+                                            onPressed: () {
+                                              _userService.loginUser(
+                                                _emailController.text,
+                                                _passwordController.text,
+                                              ).then((_) {
+                                                if (mounted) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const HomePage(),
+                                                    ),
+                                                  );
+                                                }
+                                              }).catchError((e) {
+                                                if (mounted) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                        content:
+                                                            Text(e.toString())),
+                                                  );
+                                                }
+                                              });
                                             },
                                             style: ButtonStyle(
                                               shape: WidgetStateProperty.all<
@@ -414,7 +425,7 @@ class _LoginPageState extends State<LoginPage> {
                                               overlayColor:
                                                   WidgetStateProperty
                                                       .all<Color>(Colors.green
-                                                          .withOpacity(0.8)),
+                                                          .withValues(alpha: 0.8)),
                                               elevation: WidgetStateProperty.all<
                                                       double>(
                                                   0.0), // Remove the button shadow

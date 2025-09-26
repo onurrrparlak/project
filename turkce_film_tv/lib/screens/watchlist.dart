@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:turkce_film_tv/screens/videoplayer.dart';
 import 'package:turkce_film_tv/services/focusnodeservice.dart';
 
+// ignore_for_file: unused_local_variable
+
 class LeftButtonIntent extends Intent {}
 
 class RightButtonIntent extends Intent {}
@@ -27,10 +29,10 @@ class UserWatchlistPage extends StatefulWidget {
   const UserWatchlistPage({super.key});
 
   @override
-  _UserWatchlistPageState createState() => _UserWatchlistPageState();
+  UserWatchlistPageState createState() => UserWatchlistPageState();
 }
 
-class _UserWatchlistPageState extends State<UserWatchlistPage> {
+class UserWatchlistPageState extends State<UserWatchlistPage> {
   late final User _currentUser;
   late final CollectionReference _watchlistRef;
   FocusServiceProvider? _provider;
@@ -177,8 +179,7 @@ class _UserWatchlistPageState extends State<UserWatchlistPage> {
                                                         }
                                                       });
                                                     } catch (e) {
-                                                      print(
-                                                          'Error deleting movie from watchlist: $e');
+                                                      // Error deleting movie from watchlist: $e
                                                     }
                                                     return null;
                                                   },
@@ -249,8 +250,7 @@ class _UserWatchlistPageState extends State<UserWatchlistPage> {
                                                             }
                                                           });
                                                         } catch (e) {
-                                                          print(
-                                                              'Error deleting movie from watchlist: $e');
+                                                          // Error deleting movie from watchlist: $e
                                                         }
                                                       },
                                                     ),
@@ -305,8 +305,7 @@ class _UserWatchlistPageState extends State<UserWatchlistPage> {
                                                       }
                                                     });
                                                   } catch (e) {
-                                                    print(
-                                                        'Error updating movie watched status: $e');
+                                                    // Error updating movie watched status: $e
                                                   }
                                                 },
                                               ),
@@ -332,9 +331,7 @@ class _UserWatchlistPageState extends State<UserWatchlistPage> {
                                             var movieData = snapshot
                                                 .data!.docs.first
                                                 .data();
-                                            final movieTitle =
-                                                movieData['title'];
-                                            final movieUrl = movieData['url'];
+                                            final movieUrl = movieData['url']; 
 
                                             final movieImage =
                                                 movieData['posterImageUrl'];
@@ -441,8 +438,7 @@ class _UserWatchlistPageState extends State<UserWatchlistPage> {
                                                         }
                                                       });
                                                     } catch (e) {
-                                                      print(
-                                                          'Error deleting movie from watchlist: $e');
+                                                      // Error deleting movie from watchlist: $e
                                                     }
                                                   },
                                                 ),
@@ -501,8 +497,7 @@ class _UserWatchlistPageState extends State<UserWatchlistPage> {
                                                         }
                                                       });
                                                     } catch (e) {
-                                                      print(
-                                                          'Error updating movie watched status: $e');
+                                                      // Error updating movie watched status: $e
                                                     }
                                                   },
                                                 ),
@@ -527,16 +522,10 @@ class _UserWatchlistPageState extends State<UserWatchlistPage> {
                                               var movieData = snapshot
                                                   .data!.docs.first
                                                   .data();
-                                              final movieTitle =
-                                                  movieData['title'];
                                               final movieUrl = movieData['url'];
 
                                               final movieImage =
                                                   movieData['posterImageUrl'];
-                                              String? subtitle = movieData
-                                                      .containsKey('subtitle')
-                                                  ? movieData['subtitle']
-                                                  : null;
 
                                               return GestureDetector(
                                                 onTap: () async {},

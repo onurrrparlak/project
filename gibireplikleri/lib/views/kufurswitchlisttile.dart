@@ -7,10 +7,10 @@ class ProfanitySwitch extends StatefulWidget {
   const ProfanitySwitch({super.key, required this.showAll, required this.onToggle});
 
   @override
-  _ProfanitySwitchState createState() => _ProfanitySwitchState();
+  ProfanitySwitchState createState() => ProfanitySwitchState();
 }
 
-class _ProfanitySwitchState extends State<ProfanitySwitch> {
+class ProfanitySwitchState extends State<ProfanitySwitch> {
   bool _showAll = false;
 
   @override

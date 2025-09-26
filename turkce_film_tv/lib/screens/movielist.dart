@@ -33,7 +33,7 @@ class MovieListView extends StatelessWidget {
                   subtitle: Text(movie.releaseYear),
                   onTap: () {
                     movieProvider.selectMovie(movie.movieId);
-                    print(movie.title);
+                    // movie.title
                   },
                 );
               },

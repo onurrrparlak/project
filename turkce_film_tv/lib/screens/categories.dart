@@ -8,10 +8,10 @@ class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
 
   @override
-  _CategoriesScreenState createState() => _CategoriesScreenState();
+  CategoriesScreenState createState() => CategoriesScreenState();
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
+class CategoriesScreenState extends State<CategoriesScreen> {
   List<DocumentSnapshot> _movies = [];
   late String _selectedCategory;
 
@@ -125,17 +125,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           ),
                         );
                       },
-                      child: Container(
-                        child: AspectRatio(
-                          aspectRatio: 5 / 3,
-                          child: Container(
-                            padding: EdgeInsets.all(
-                              MediaQuery.of(context).size.width * 0.0045,
-                            ),
-                            child: Image.network(
-                              _movies[index]['posterImageUrl'],
-                              fit: BoxFit.cover,
-                            ),
+                      child: AspectRatio(
+                        aspectRatio: 5 / 3,
+                        child: Container(
+                          padding: EdgeInsets.all(
+                            MediaQuery.of(context).size.width * 0.0045,
+                          ),
+                          child: Image.network(
+                            _movies[index]['posterImageUrl'],
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

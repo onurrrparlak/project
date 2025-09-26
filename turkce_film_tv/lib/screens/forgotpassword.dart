@@ -7,17 +7,17 @@ class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
+  ForgotPasswordScreenState createState() => ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   bool _isLoading = false;
    late FocusServiceProvider _provider;
   @override
   void initState() {
-    // TODO: implement initState
+   
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
      _provider.changeFocus(
@@ -47,14 +47,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       await FirebaseAuth.instance.sendPasswordResetEmail(
         email: _emailController.text,
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password reset email sent')),
-      );
-      Navigator.of(context).pop();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Password reset email sent')),
+        );
+        Navigator.of(context).pop();
+      }
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.toString())),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(error.toString())),
+        );
+      }
     } finally {
       setState(() {
         _isLoading = false;
@@ -125,7 +129,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       foregroundColor:
                           WidgetStateProperty.all<Color>(Colors.white),
                       overlayColor: WidgetStateProperty.all<Color>(
-                          Colors.green.withOpacity(0.8)),
+                          Colors.green.withValues(alpha: 0.8)),
                       elevation: WidgetStateProperty.all<double>(
                           0.0), // Remove the button shadow
                     ),

@@ -136,8 +136,8 @@ class FocusServiceProvider extends ChangeNotifier  {
 
 
   void changeFocus(BuildContext context, FocusNode focusNode) async {
-    print('Current Focus Node: ${FocusScope.of(context).focusedChild}');
-    print('Node to be Focused: $focusNode');
+    // Current Focus Node: ${FocusScope.of(context).focusedChild}
+    // Node to be Focused: $focusNode
 
     FocusScope.of(context).requestFocus(focusNode);
 
@@ -145,9 +145,9 @@ class FocusServiceProvider extends ChangeNotifier  {
     await Future.delayed(const Duration(milliseconds: 100));
 
     if (focusNode.hasFocus) {
-      print(focusNode.debugLabel);
+      // focusNode.debugLabel
     } else {
-      print('Failed to focus on: $focusNode');
+      // Failed to focus on: $focusNode
     }
 
     notifyListeners(); // Notify listeners after the focus changes

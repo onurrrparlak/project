@@ -3,6 +3,8 @@ import '../services/focusnodeservice.dart';
 import '../services/user_service.dart';
 import 'homepage.dart';
 
+// ignore_for_file: use_build_context_synchronously
+
 class LeftButtonIntent extends Intent {}
 
 class RightButtonIntent extends Intent {}
@@ -17,10 +19,10 @@ class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  RegisterPageState createState() => RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class RegisterPageState extends State<RegisterPage> {
   final UserService _userService = UserService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -36,7 +38,7 @@ late FocusServiceProvider _provider;
 
   @override
   void initState() {
-    // TODO: implement initState
+   
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
 
@@ -47,9 +49,9 @@ late FocusServiceProvider _provider;
 
   @override
   Widget build(BuildContext context) {
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaler = MediaQuery.of(context).textScaler;
     const baseFontSize = 14.0;
-    final scaledFontSize = baseFontSize * textScaleFactor;
+    final scaledFontSize = textScaler.scale(baseFontSize);
     final TextStyle whiteTextStyle = TextStyle(
       color: Colors.white,
       fontSize: scaledFontSize,
@@ -133,29 +135,32 @@ late FocusServiceProvider _provider;
                 ),
                 TextField(
                   focusNode: FocusServiceProvider.registerPasswordAgainNode,
-                  onEditingComplete: () async {
+                  onEditingComplete: () {
                     if (_passwordController.text ==
                         _passwordAgainController.text) {
-                      try {
-                        await _userService.registerUser(
-                          _emailController.text,
-                          _passwordController.text,
-                          _usernameController.text,
-                        );
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomePage(),
-                          ),
-                        );
-                      } catch (e) {
-                        print(e);
-                      }
+                      _userService.registerUser(
+                        _emailController.text,
+                        _passwordController.text,
+                        _usernameController.text,
+                      ).then((_) {
+                        if (mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ),
+                          );
+                        }
+                      }).catchError((e) {
+                        // Error: $e
+                      });
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Girdiğiniz şifreler aynı değil')),
-                      );
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Girdiğiniz şifreler aynı değil')),
+                        );
+                      }
                     }
                   },
                   controller: _passwordAgainController,
@@ -178,29 +183,32 @@ late FocusServiceProvider _provider;
                 Focus(
                   focusNode: FocusServiceProvider.registerRegisterButtonNode,
                   child: ElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (_passwordController.text ==
                           _passwordAgainController.text) {
-                        try {
-                          await _userService.registerUser(
-                            _emailController.text,
-                            _passwordController.text,
-                            _usernameController.text,
-                          );
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HomePage(),
-                            ),
-                          );
-                        } catch (e) {
-                          print(e);
-                        }
+                        _userService.registerUser(
+                          _emailController.text,
+                          _passwordController.text,
+                          _usernameController.text,
+                        ).then((_) {
+                          if (mounted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomePage(),
+                              ),
+                            );
+                          }
+                        }).catchError((e) {
+                          // Error: $e
+                        });
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Girdiğiniz şifreler aynı değil')),
-                        );
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Girdiğiniz şifreler aynı değil')),
+                          );
+                        }
                       }
                     },
                     style: ButtonStyle(
@@ -220,7 +228,7 @@ late FocusServiceProvider _provider;
                       foregroundColor:
                           WidgetStateProperty.all<Color>(Colors.white),
                       overlayColor: WidgetStateProperty.all<Color>(
-                          Colors.green.withOpacity(0.8)),
+                          Colors.green.withValues(alpha: 0.8)),
                       elevation: WidgetStateProperty.all<double>(
                           0.0), // Remove the button shadow
                     ),

@@ -6,18 +6,18 @@ import 'package:turkce_film_tv/screens/loginscreen.dart';
 import '../services/focusnodeservice.dart';
 import '../services/user_service.dart';
 
+// ignore_for_file: use_build_context_synchronously
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  ProfilePageState createState() => ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class ProfilePageState extends State<ProfilePage> {
   final UserService _userService = UserService();
   late String _currentUserId;
-  String? _username;
-  late String _email;
   String? _password;
   String? _newPassword;
   String? _selectedAvatar;
@@ -82,13 +82,13 @@ class _ProfilePageState extends State<ProfilePage> {
           .update({'avatar': avatarNumber});
     } catch (e) {
       // Handle any errors that occur while updating the avatar
-      print('Error updating avatar: $e');
+      // Error updating avatar: $e
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+   
     super.initState();
     _currentUserId = _userService.getCurrentUserId() ?? '';
     getCurrentUser();
@@ -111,29 +111,26 @@ class _ProfilePageState extends State<ProfilePage> {
     user.reauthenticateWithCredential(cred).then((value) {
       user.updatePassword(newPassword).then((_) async {
         await _userService.logoutUser();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-        );
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
+        }
       }).catchError((error) {});
     }).catchError((err) {
       if (err.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content:
-                  Text('Girdiğiniz şifre hesabınızın şifresiyle aynı değil')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content:
+                    Text('Girdiğiniz şifre hesabınızın şifresiyle aynı değil')),
+          );
+        }
       }
     });
   }
 
-  void _submit() async {
-    print('Submitting form:');
-    print('Username: $_username');
-    print('Password: $_password');
-    print('New Password: $_newPassword');
-    print('Selected Avatar: $_selectedAvatar');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -299,7 +296,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               Colors.white),
                                       overlayColor:
                                           WidgetStateProperty.all<Color>(
-                                        Colors.green.withOpacity(0.8),
+                                        Colors.green.withValues(alpha: 0.8),
                                       ),
                                       elevation:
                                           WidgetStateProperty.all<double>(
@@ -312,14 +309,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                   focusNode:
                                       FocusServiceProvider.avatarUpdateSubmitNode,
                                   child: ElevatedButton(
-                                    onPressed: () async {
-                                      await _userService.logoutUser();
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LoginPage()),
-                                      );
+                                    onPressed: () {
+                                      _userService.logoutUser().then((_) {
+                                        if (mounted) {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const LoginPage()),
+                                          );
+                                        }
+                                      });
                                     },
                                     style: ButtonStyle(
                                       shape: WidgetStateProperty.all<
@@ -342,7 +342,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               Colors.white),
                                       overlayColor:
                                           WidgetStateProperty.all<Color>(
-                                        Colors.red.withOpacity(0.8),
+                                        Colors.red.withValues(alpha: 0.8),
                                       ),
                                       elevation:
                                           WidgetStateProperty.all<double>(
