@@ -20,7 +20,7 @@ dependencies:
   url_launcher: ^6.3.2
   audioplayers: ^6.5.1
   google_mobile_ads: ^6.0.0
-  share: ^2.0.4
+  share_plus: ^12.0.0
 
 dev_dependencies:
   flutter_test:

@@ -7,8 +7,7 @@ import 'package:gibireplikleri/core/replikler.dart';
 import 'package:gibireplikleri/services/admob_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:share/share.dart';
-
+import 'package:share_plus/share_plus.dart';
 
 class Favorites extends StatefulWidget {
   const Favorites({super.key});
@@ -32,7 +31,7 @@ class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,12 +102,20 @@ class _FavoritesState extends State<Favorites> {
                               icon: const Icon(Icons.share),
                               onPressed: () async {
                                 _adMobService.adDismissedCallback = () async {
-                                  final data = await rootBundle.load(
-                                      'assets/sounds/${p['id']}.mp3');
+                                  final data = await rootBundle
+                                      .load('assets/sounds/${p['id']}.mp3');
                                   final tempDir = await getTemporaryDirectory();
-                                  final tempFile = File('${tempDir.path}/temp.mp3');
-                                  await tempFile.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-                                  await Share.shareFiles([tempFile.path], mimeTypes: ['audio/mpeg']);
+                                  final tempFile =
+                                      File('${tempDir.path}/temp.mp3');
+                                  await tempFile.writeAsBytes(data.buffer
+                                      .asUint8List(data.offsetInBytes,
+                                          data.lengthInBytes));
+                                  final params = ShareParams(
+                                    files: [
+                                      XFile(tempFile.path,
+                                          mimeType: 'audio/mpeg')
+                                    ],
+                                  );
                                   tempFile.delete();
                                 };
                                 _adMobService.rewardedAdNotReadyCallback =
@@ -130,7 +137,8 @@ class _FavoritesState extends State<Favorites> {
                 );
               } else {
                 return const Center(
-                  child: Text('Listenize henüz bir favori replik eklememişsiniz.'),
+                  child:
+                      Text('Listenize henüz bir favori replik eklememişsiniz.'),
                 );
               }
             },

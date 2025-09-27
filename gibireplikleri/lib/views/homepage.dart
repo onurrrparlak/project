@@ -7,7 +7,7 @@ import 'package:gibireplikleri/core/replikler.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../provider/settings_provider.dart';
 import '../services/admob_service.dart';
@@ -136,7 +136,6 @@ class _HomepageState extends State<Homepage> with WidgetsBindingObserver {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Expanded(
-             
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,7 +156,6 @@ class _HomepageState extends State<Homepage> with WidgetsBindingObserver {
                                     fontSize: 2.6 * unitHeightValue,
                                     color: const Color(0xFF8c8d96)),
                               ),
-                             
                               Expanded(
                                 child: Text(
                                   replik,
@@ -178,7 +176,6 @@ class _HomepageState extends State<Homepage> with WidgetsBindingObserver {
                   ],
                 ),
               ),
-             
               Expanded(
                 flex: 0,
                 child: Padding(
@@ -416,10 +413,21 @@ class _HomepageState extends State<Homepage> with WidgetsBindingObserver {
                                                   final data =
                                                       await rootBundle.load(
                                                           'assets/sounds/$indexInOriginalList.mp3');
-                                                  final tempDir = await getTemporaryDirectory();
-                                                  final tempFile = File('${tempDir.path}/temp.mp3');
-                                                  await tempFile.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-                                                  await Share.shareFiles([tempFile.path], mimeTypes: ['audio/mpeg']);
+                                                  final tempDir =
+                                                      await getTemporaryDirectory();
+                                                  final tempFile = File(
+                                                      '${tempDir.path}/temp.mp3');
+                                                  await tempFile.writeAsBytes(
+                                                      data.buffer.asUint8List(
+                                                          data.offsetInBytes,
+                                                          data.lengthInBytes));
+                                                  final params = ShareParams(
+                                                    files: [
+                                                      XFile(tempFile.path,
+                                                          mimeType:
+                                                              'audio/mpeg')
+                                                    ],
+                                                  );
                                                   tempFile.delete();
                                                 };
                                                 _adMobService
