@@ -15,7 +15,7 @@ class GibiIzle extends StatelessWidget {
     );
   }
 
-  _launchPlayStore() async {
+  Future<void> _launchPlayStore() async {
     const url = 'market://details?id=com.exxen.android';
     if (await canLaunchUrlString(url)) {
       await launchUrlString(url);

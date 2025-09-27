@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:share/share.dart';
 
 class ShareAppWidget extends StatelessWidget {
   final String playStoreLink =
@@ -12,9 +12,8 @@ class ShareAppWidget extends StatelessWidget {
     return ListTile(
       leading: const Icon(Icons.share),
       title: const Text('Uygulamayı paylaş'),
-      onTap: () {
-        Share.share(
-            'Gibi Replikleri uygulamasını hemen indir! : $playStoreLink');
+      onTap: () async {
+        Share.share('Gibi Replikleri uygulamasını hemen indir! : $playStoreLink');
       },
     );
   }

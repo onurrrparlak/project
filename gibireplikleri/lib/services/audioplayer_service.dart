@@ -40,7 +40,7 @@ class AudioService extends ChangeNotifier {
   }
 
 
-  playSound(int id) async {
+  Future<void> playSound(int id) async {
     var path = ('sounds/$id.mp3');
     _isPlaying = true;
     await _player.play(AssetSource(path.toString()));
@@ -53,7 +53,7 @@ class AudioService extends ChangeNotifier {
     notifyListeners();
   }
 
-  stopSound() async {
+  Future<void> stopSound() async {
     await _player.stop();
     _isPlaying = false;
     notifyListeners();

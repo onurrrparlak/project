@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gibireplikleri/core/replikler.dart';
 import 'package:gibireplikleri/services/admob_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 
 
 class Favorites extends StatefulWidget {
@@ -102,15 +105,11 @@ class _FavoritesState extends State<Favorites> {
                                 _adMobService.adDismissedCallback = () async {
                                   final data = await rootBundle.load(
                                       'assets/sounds/${p['id']}.mp3');
-                                  final buffer = data.buffer;
-                                  await Share.shareXFiles([
-                                    XFile.fromData(
-                                      buffer.asUint8List(
-                                          data.offsetInBytes,
-                                          data.lengthInBytes),
-                                      mimeType: 'audio/x-aiff',
-                                    )
-                                  ]);
+                                  final tempDir = await getTemporaryDirectory();
+                                  final tempFile = File('${tempDir.path}/temp.mp3');
+                                  await tempFile.writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+                                  await Share.shareFiles([tempFile.path], mimeTypes: ['audio/mpeg']);
+                                  tempFile.delete();
                                 };
                                 _adMobService.rewardedAdNotReadyCallback =
                                     (String message) {
