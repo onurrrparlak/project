@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gibireplikleri/gibi_icons_icons.dart';
 import 'package:gibireplikleri/provider/settings_provider.dart';
@@ -13,7 +14,9 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await MobileAds.instance.initialize();
+  if (!kIsWeb) {
+    await MobileAds.instance.initialize();
+  }
   await Hive.openBox('favoriler');
   await Hive.openBox('settings');
   await Hive.openBox('replikBox');
